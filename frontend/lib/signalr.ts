@@ -4,7 +4,8 @@ import {
   LogLevel,
 } from "@microsoft/signalr";
 
-const API_URL = "http://localhost:5000";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ?? "https://mfbchatapp.onrender.com";
 
 export const createChatConnection = (token: string): HubConnection => {
   return new HubConnectionBuilder()
