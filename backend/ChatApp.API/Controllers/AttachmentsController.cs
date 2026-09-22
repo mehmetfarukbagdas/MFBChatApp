@@ -40,7 +40,7 @@ public class AttachmentsController : ControllerBase
     [RequestSizeLimit(MaxFileSize)]
     public async Task<IActionResult> Upload(
         [FromForm] Guid chatId,
-        [FromForm] IFormFile file,
+        IFormFile file,
         CancellationToken cancellationToken)
     {
         var userId = GetUserId();
