@@ -823,6 +823,7 @@ export default function AuthPage({
                         showPassword={showPassword}
                         setShowPassword={setShowPassword}
                         showConfirmPassword={showConfirmPassword}
+                        setShowConfirmPassword={setShowConfirmPassword}
                         error={error}
                         loading={loading}
                         onSubmit={handleRegister}
