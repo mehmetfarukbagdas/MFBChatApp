@@ -13914,7 +13914,7 @@ export default function Home() {
                                 message.id && startMessageLongPress(message.id)
                               }
                               onTouchEnd={cancelMessageLongPress}
-                              onTouchİptal={cancelMessageLongPress}
+                              onTouchCancel={cancelMessageLongPress}
                               onContextMenu={(event) => {
                                 if (window.innerWidth < 768)
                                   event.preventDefault();
