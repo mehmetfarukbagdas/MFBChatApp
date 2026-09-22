@@ -1122,7 +1122,6 @@ export default function Home() {
     localStorage.removeItem("chatapp-wallpaper-fit");
     localStorage.removeItem("chatapp-wallpaper-scale");
     setWallpaperFit("contain");
-    setWallpaperScale(100);
     setQuietHoursEnabled(false);
     setQuietHoursStart("23:00");
     setQuietHoursEnd("08:00");
