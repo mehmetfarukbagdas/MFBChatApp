@@ -10762,10 +10762,6 @@ export default function Home() {
                       >
                         <span
                           style={{
-                            backgroundColor: "#ffffff",
-                            boxShadow: "0 1px 3px rgba(20, 45, 32, 0.18)",
-                          }}
-                          style={{
                             backgroundColor: (value as boolean)
                               ? "#ffffff"
                               : "#68d39a",
@@ -10774,7 +10770,9 @@ export default function Home() {
                               : "1px solid #57bf88",
                             boxShadow: "0 1px 3px rgba(20, 45, 32, 0.22)",
                           }}
-                          className={`absolute top-0.5 h-4 w-4 rounded-full transition ${(value as boolean) ? "left-4" : "left-0.5"}`}
+                          className={`absolute top-0.5 h-4 w-4 rounded-full transition ${
+                            (value as boolean) ? "left-4" : "left-0.5"
+                          }`}
                         />
                       </span>
                     </button>
