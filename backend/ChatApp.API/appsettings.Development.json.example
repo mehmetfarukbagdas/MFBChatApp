@@ -1,0 +1,25 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=chatapp;Username=postgres;Password=CHANGE_ME"
+  },
+  "Jwt": {
+    "Key": "CHANGE_ME_TO_A_LONG_RANDOM_SECRET",
+    "Issuer": "ChatApp.API",
+    "Audience": "ChatApp.Client"
+  },
+  "Frontend": {
+    "Origins": "http://localhost:3000"
+  },
+  "WebPush": {
+    "Subject": "mailto:you@example.com",
+    "PublicKey": "YOUR_VAPID_PUBLIC_KEY",
+    "PrivateKey": "YOUR_VAPID_PRIVATE_KEY"
+  },
+  "Admin": {
+    "Emails": "YOUR_ADMIN_EMAIL"
+  },
+  "Gemini": {
+    "ApiKey": "",
+    "Model": "gemini-3.7-flash"
+  }
+}
