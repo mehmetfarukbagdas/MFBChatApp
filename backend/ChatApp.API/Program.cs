@@ -210,15 +210,10 @@ using (var scope = app.Services.CreateScope())
     ");
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-else
-{
-    app.UseHsts();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseHsts();
 
 app.Use(async (context, next) =>
 {
