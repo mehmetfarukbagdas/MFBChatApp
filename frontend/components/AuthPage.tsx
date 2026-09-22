@@ -874,7 +874,7 @@ function AuthCard({
   showPassword: boolean;
   setShowPassword: (value: boolean) => void;
   showConfirmPassword: boolean;
-  setShowConfirmPassword: (value: boolean) => void;
+  setShowConfirmPassword: React.Dispatch<React.SetStateAction<boolean>>;
   error: string;
   loading: boolean;
   onSubmit: (e: React.FormEvent) => void;
