@@ -212,6 +212,20 @@ using (var scope = app.Services.CreateScope())
         CREATE INDEX IF NOT EXISTS ""IX_MessageReactions_MessageId_Emoji""
             ON ""MessageReactions"" (""MessageId"", ""Emoji"");
 
+        CREATE TABLE IF NOT EXISTS ""MessageHiddenForUsers"" (
+            ""MessageId"" uuid NOT NULL,
+            ""UserId"" uuid NOT NULL,
+            ""HiddenAt"" timestamp with time zone NOT NULL DEFAULT now(),
+            CONSTRAINT ""PK_MessageHiddenForUsers"" PRIMARY KEY (""MessageId"", ""UserId""),
+            CONSTRAINT ""FK_MessageHiddenForUsers_Messages_MessageId"" FOREIGN KEY (""MessageId"")
+                REFERENCES ""Messages"" (""Id"") ON DELETE CASCADE,
+            CONSTRAINT ""FK_MessageHiddenForUsers_Users_UserId"" FOREIGN KEY (""UserId"")
+                REFERENCES ""Users"" (""Id"") ON DELETE CASCADE
+        );
+
+        CREATE INDEX IF NOT EXISTS ""IX_MessageHiddenForUsers_UserId""
+            ON ""MessageHiddenForUsers"" (""UserId"");
+
         UPDATE ""ChatMembers"" cm
         SET ""Role"" = 'Owner'
         WHERE cm.""Role"" = 'Member'
