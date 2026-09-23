@@ -197,6 +197,21 @@ using (var scope = app.Services.CreateScope())
         ALTER TABLE ""ChatMembers"" ADD COLUMN IF NOT EXISTS ""IsMarkedUnread"" boolean NOT NULL DEFAULT FALSE;
         ALTER TABLE ""ChatMembers"" ADD COLUMN IF NOT EXISTS ""DeletedAt"" timestamp with time zone NULL;
 
+        CREATE TABLE IF NOT EXISTS ""MessageReactions"" (
+            ""MessageId"" uuid NOT NULL,
+            ""UserId"" uuid NOT NULL,
+            ""Emoji"" text NOT NULL,
+            ""CreatedAt"" timestamp with time zone NOT NULL DEFAULT now(),
+            CONSTRAINT ""PK_MessageReactions"" PRIMARY KEY (""MessageId"", ""UserId""),
+            CONSTRAINT ""FK_MessageReactions_Messages_MessageId"" FOREIGN KEY (""MessageId"")
+                REFERENCES ""Messages"" (""Id"") ON DELETE CASCADE,
+            CONSTRAINT ""FK_MessageReactions_Users_UserId"" FOREIGN KEY (""UserId"")
+                REFERENCES ""Users"" (""Id"") ON DELETE CASCADE
+        );
+
+        CREATE INDEX IF NOT EXISTS ""IX_MessageReactions_MessageId_Emoji""
+            ON ""MessageReactions"" (""MessageId"", ""Emoji"");
+
         UPDATE ""ChatMembers"" cm
         SET ""Role"" = 'Owner'
         WHERE cm.""Role"" = 'Member'
@@ -235,4 +250,3 @@ app.MapControllers();
 app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();
-
