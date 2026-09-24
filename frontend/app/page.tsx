@@ -13742,47 +13742,82 @@ export default function Home() {
                         MFB AI
                       </div>
                       <div className="space-y-3">
-                        {aiMessages.map((message) => (
-                          <div
-                            id={`ai-message-${message.id}`}
-                            key={message.id}
-                            className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-                          >
+                        {aiMessages.map((message) => {
+                          const isOwn = message.role === "user";
+                          const emojiOnly =
+                            !message.attachment &&
+                            isEmojiOnlyMessage(message.content);
+
+                          return (
                             <div
-                              className={`w-fit max-w-[min(68vw,640px)] rounded-[18px] px-4 py-2.5 text-sm leading-relaxed ${message.role === "user" ? "rounded-br-md bg-[#9bdfb3] text-[#183024]" : "rounded-bl-md bg-slate-100 text-slate-900 dark:bg-[#0b2117] dark:text-slate-100"}`}
+                              id={`ai-message-${message.id}`}
+                              key={message.id}
+                              className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
                             >
-                              {message.attachment && (
-                                <div className="mb-2 overflow-hidden rounded-xl border border-white/10 bg-black/10">
-                                  {message.attachment.kind === "image" ? (
-                                    <img
-                                      src={message.attachment.dataUrl}
-                                      alt={message.attachment.fileName}
-                                      className="max-h-72 w-full object-contain"
-                                    />
-                                  ) : (
-                                    <div className="flex items-center gap-3 px-3 py-2.5 text-xs">
-                                      {message.attachment.kind === "audio" ? (
-                                        <Mic
-                                          className="h-4 w-4 shrink-0 text-emerald-300"
-                                          strokeWidth={1.8}
-                                        />
-                                      ) : (
-                                        <FileText
-                                          className="h-4 w-4 shrink-0 text-emerald-300"
-                                          strokeWidth={1.8}
-                                        />
-                                      )}
-                                      <span className="min-w-0 truncate">
-                                        {message.attachment.fileName}
-                                      </span>
+                              <div className="flex w-fit max-w-[min(68vw,640px)] flex-col gap-2">
+                                {message.attachment && (
+                                  <div
+                                    className={`overflow-hidden rounded-xl ${
+                                      message.attachment.kind === "image"
+                                        ? "border-0 bg-transparent"
+                                        : "border border-white/10 bg-black/10"
+                                    }`}
+                                  >
+                                    {message.attachment.kind === "image" ? (
+                                      <img
+                                        src={message.attachment.dataUrl}
+                                        alt={message.attachment.fileName}
+                                        className="max-h-72 max-w-full rounded-xl object-contain"
+                                      />
+                                    ) : (
+                                      <div className="flex items-center gap-3 px-3 py-2.5 text-xs">
+                                        {message.attachment.kind === "audio" ? (
+                                          <Mic
+                                            className="h-4 w-4 shrink-0 text-emerald-300"
+                                            strokeWidth={1.8}
+                                          />
+                                        ) : (
+                                          <FileText
+                                            className="h-4 w-4 shrink-0 text-emerald-300"
+                                            strokeWidth={1.8}
+                                          />
+                                        )}
+                                        <span className="min-w-0 truncate">
+                                          {message.attachment.fileName}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+
+                                {emojiOnly ? (
+                                  <div
+                                    className={`premium-emoji-message px-1 py-0.5 text-[3.25rem] leading-none tracking-tight ${
+                                      isOwn ? "text-right" : "text-left"
+                                    }`}
+                                    role="img"
+                                    aria-label="Emoji message"
+                                    data-no-translate="true"
+                                  >
+                                    {message.content?.trim()}
+                                  </div>
+                                ) : (
+                                  message.content?.trim() && (
+                                    <div
+                                      className={`w-fit max-w-full rounded-[18px] px-4 py-2.5 text-sm leading-relaxed ${
+                                        isOwn
+                                          ? "rounded-br-md bg-[#9bdfb3] text-[#183024]"
+                                          : "rounded-bl-md bg-slate-100 text-slate-900 dark:bg-[#0b2117] dark:text-slate-100"
+                                      }`}
+                                    >
+                                      {message.content}
                                     </div>
-                                  )}
-                                </div>
-                              )}
-                              {message.content}
+                                  )
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                         {aiLoading && (
                           <div className="flex justify-start">
                             <div className="rounded-2xl rounded-bl-md border border-[#173b2b] bg-[#0b2117] px-4 py-3 text-sm text-slate-400">
