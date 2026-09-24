@@ -33,12 +33,23 @@ public class AuthService : IAuthService
         username = username.Trim();
         email = email.Trim().ToLowerInvariant();
 
-        if (await _context.Users.AnyAsync(u => u.Email.ToLower() == email))
+        var existingByEmail = await _context.Users
+            .SingleOrDefaultAsync(u => u.Email.ToLower() == email);
+
+        // Only a genuinely verified account should block re-registration.
+        // An unverified "pending" account from a previous attempt (expired
+        // code, user never finished verifying, etc.) should not permanently
+        // lock the email out — refresh it and send a brand-new code instead.
+        if (existingByEmail is not null && existingByEmail.EmailVerified)
             throw new InvalidOperationException("Bu email zaten kayıtlı.");
 
-        if (await _context.Users.AnyAsync(u => u.Username.ToLower() == username.ToLower()))
+        var usernameTaken = await _context.Users.AnyAsync(u =>
+            u.Username.ToLower() == username.ToLower() &&
+            (existingByEmail == null || u.Id != existingByEmail.Id));
+
+        if (usernameTaken)
             throw new InvalidOperationException("Bu kullanıcı adı zaten kullanılıyor.");
-        
+
         var verificationCode = RandomNumberGenerator
             .GetInt32(100000, 1000000)
             .ToString();
@@ -46,18 +57,33 @@ public class AuthService : IAuthService
         var verificationCodeHash =
             BCrypt.Net.BCrypt.HashPassword(verificationCode);
 
-        var user = new User
-        {
-            Username = username,
-            Email = email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
-            SecurityStamp = Guid.NewGuid().ToString("N"),
-            EmailVerificationCodeHash = verificationCodeHash,
-            EmailVerificationCodeExpiresAt = DateTime.UtcNow.AddMinutes(10),
-            EmailVerified = false
-        };
+        User user;
 
-        _context.Users.Add(user);
+        if (existingByEmail is not null)
+        {
+            user = existingByEmail;
+            user.Username = username;
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
+            user.SecurityStamp = Guid.NewGuid().ToString("N");
+            user.EmailVerificationCodeHash = verificationCodeHash;
+            user.EmailVerificationCodeExpiresAt = DateTime.UtcNow.AddMinutes(10);
+        }
+        else
+        {
+            user = new User
+            {
+                Username = username,
+                Email = email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+                SecurityStamp = Guid.NewGuid().ToString("N"),
+                EmailVerificationCodeHash = verificationCodeHash,
+                EmailVerificationCodeExpiresAt = DateTime.UtcNow.AddMinutes(10),
+                EmailVerified = false
+            };
+
+            _context.Users.Add(user);
+        }
+
         await _context.SaveChangesAsync();
 
         await _emailService.SendVerificationCodeAsync(
