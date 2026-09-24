@@ -503,6 +503,8 @@ export default function AuthPage({
     setError("");
     setResetCode("");
     setResetStep("email");
+    setPassword("");
+    setConfirmPassword("");
     setResetMode(true);
   };
 
@@ -512,6 +514,8 @@ export default function AuthPage({
     setResetMode(false);
     setResetStep("email");
     setResetCode("");
+    setPassword("");
+    setConfirmPassword("");
   };
 
   const handleForgotPassword = async (e: React.FormEvent) => {
@@ -574,6 +578,8 @@ export default function AuthPage({
       }
 
       setResetStep("password");
+      setPassword("");
+      setConfirmPassword("");
       setError("");
     } catch {
       setError(copy.apiError);
@@ -1245,6 +1251,7 @@ function ResetPasswordCard({
             visible={showPassword}
             setVisible={setShowPassword}
             language={language}
+            autoComplete="new-password"
           />
           <PasswordField
             id="reset-confirm-password"
@@ -1255,6 +1262,7 @@ function ResetPasswordCard({
             visible={showConfirmPassword}
             setVisible={setShowConfirmPassword}
             language={language}
+            autoComplete="new-password"
           />
 
           {error && <ErrorBox message={error} />}
@@ -1338,6 +1346,7 @@ function PasswordField({
   visible,
   setVisible,
   language,
+  autoComplete,
 }: {
   id: string;
   label: string;
@@ -1347,6 +1356,7 @@ function PasswordField({
   visible: boolean;
   setVisible: (value: boolean) => void;
   language: "tr" | "en";
+  autoComplete?: string;
 }) {
   return (
     <div>
@@ -1372,6 +1382,7 @@ function PasswordField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           required
+          autoComplete={autoComplete}
           className="mfb-mint-input w-full rounded-xl border py-3.5 pl-11 pr-12 text-sm outline-none hover:border-emerald-400/30"
         />
 
