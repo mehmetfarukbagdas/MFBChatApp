@@ -16237,7 +16237,7 @@ export default function Home() {
 
         {messageDeleteDialog && (
           <div
-            className="fixed inset-0 z-[105] flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm"
+            className="fixed inset-0 z-[105] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm dark:bg-black/70"
             role="presentation"
             onMouseDown={(event) => {
               if (event.target === event.currentTarget) {
@@ -16246,24 +16246,24 @@ export default function Home() {
             }}
           >
             <div
-              className="w-full max-w-sm overflow-hidden rounded-3xl border border-emerald-300/15 bg-[#07130f] shadow-2xl shadow-black/50"
+              className="w-full max-w-sm overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-black/10 dark:border-emerald-300/15 dark:bg-[#07130f] dark:shadow-black/50"
               role="dialog"
               aria-modal="true"
               aria-labelledby="message-delete-dialog-title"
             >
-              <div className="border-b border-emerald-300/10 px-6 py-5">
+              <div className="border-b border-slate-200 px-6 py-5 dark:border-emerald-300/10">
                 <div className="flex items-start gap-3">
-                  <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-red-400/20 bg-red-500/10 text-red-300">
+                  <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-red-300/40 bg-red-50 text-red-500 dark:border-red-400/20 dark:bg-red-500/10 dark:text-red-300">
                     <Trash2 className="h-5 w-5" />
                   </div>
                   <div className="min-w-0">
                     <h2
                       id="message-delete-dialog-title"
-                      className="text-base font-semibold text-slate-100"
+                      className="text-base font-semibold text-slate-900 dark:text-slate-100"
                     >
                       {st("Delete message", "Mesajı sil")}
                     </h2>
-                    <p className="mt-1.5 text-sm leading-6 text-slate-400">
+                    <p className="mt-1.5 text-sm leading-6 text-slate-500 dark:text-slate-400">
                       {st(
                         "Choose where you want to delete this message.",
                         "Bu mesajı nereden silmek istediğinizi seçin.",
@@ -16277,14 +16277,14 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={deleteMessageForMe}
-                  className="flex w-full items-center gap-3 rounded-2xl border border-emerald-300/10 bg-white/[0.035] px-4 py-3.5 text-left transition hover:bg-emerald-400/10"
+                  className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-left transition hover:bg-slate-100 dark:border-emerald-300/10 dark:bg-white/[0.035] dark:hover:bg-emerald-400/10"
                 >
-                  <Eraser className="h-4 w-4 text-slate-300" />
+                  <Eraser className="h-4 w-4 text-slate-500 dark:text-slate-300" />
                   <span>
-                    <span className="block text-sm font-semibold text-slate-100">
+                    <span className="block text-sm font-semibold text-slate-900 dark:text-slate-100">
                       {st("Delete for me", "Benden sil")}
                     </span>
-                    <span className="mt-0.5 block text-xs text-slate-500">
+                    <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-500">
                       {st(
                         "Remove it only from your view.",
                         "Yalnızca senin görünümünden kaldırır.",
@@ -16297,14 +16297,14 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={deleteMessageForEveryone}
-                    className="flex w-full items-center gap-3 rounded-2xl border border-red-400/15 bg-red-500/[0.05] px-4 py-3.5 text-left transition hover:bg-red-500/10"
+                    className="flex w-full items-center gap-3 rounded-2xl border border-red-300/40 bg-red-50 px-4 py-3.5 text-left transition hover:bg-red-100 dark:border-red-400/15 dark:bg-red-500/[0.05] dark:hover:bg-red-500/10"
                   >
-                    <Trash2 className="h-4 w-4 text-red-300" />
+                    <Trash2 className="h-4 w-4 text-red-500 dark:text-red-300" />
                     <span>
-                      <span className="block text-sm font-semibold text-red-200">
+                      <span className="block text-sm font-semibold text-red-600 dark:text-red-200">
                         {st("Delete for everyone", "Herkesten sil")}
                       </span>
-                      <span className="mt-0.5 block text-xs text-slate-500">
+                      <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-500">
                         {st(
                           "Remove it for everyone in this chat.",
                           "Bu sohbetteki herkes için kaldırır.",
@@ -16315,11 +16315,11 @@ export default function Home() {
                 )}
               </div>
 
-              <div className="flex justify-end border-t border-emerald-300/10 px-6 py-4">
+              <div className="flex justify-end border-t border-slate-200 px-6 py-4 dark:border-emerald-300/10">
                 <button
                   type="button"
                   onClick={() => setMessageDeleteDialog(null)}
-                  className="rounded-xl border border-emerald-300/10 bg-white/[0.035] px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/[0.06] hover:text-slate-100"
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:border-emerald-300/10 dark:bg-white/[0.035] dark:text-slate-300 dark:hover:bg-white/[0.06] dark:hover:text-slate-100"
                 >
                   {st("İptal", "İptal")}
                 </button>
