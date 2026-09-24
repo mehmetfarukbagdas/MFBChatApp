@@ -390,7 +390,21 @@ export default function AuthPage({
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.message || copy.loginError);
+        const message: string | undefined = data.message;
+
+        // Backend sends a fresh verification code and returns this specific
+        // message when the account exists with the right password but the
+        // email hasn't been verified yet. Instead of just showing an error
+        // and leaving the person stuck on the login screen, take them
+        // straight to the code-entry step so they know what to do next.
+        if (message && message.includes("doğrulama kodu")) {
+          setVerificationCode("");
+          setVerificationMode(true);
+          setError("");
+          return;
+        }
+
+        setError(message || copy.loginError);
         return;
       }
 
